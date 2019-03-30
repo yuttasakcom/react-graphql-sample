@@ -2,12 +2,19 @@ import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
 import { importSchema } from "graphql-import";
+import cors from "cors";
 
 import resolvers from "./resolvers";
 import Recipe from "./models/Recipe";
 import User from "./models/User";
 
 const app = express();
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 mongoose
   .connect(process.env.MONGO_URI)

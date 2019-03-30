@@ -5,9 +5,11 @@ type Query {
 
 type Mutation {
   addRecipe(data: AddRecipeInput!): Recipe!
+  signupUser(data: SignupUserInput): Token!
 }
 
 type Recipe {
+  _id: ID
   name: String!
   category: String!
   description: String!
@@ -28,9 +30,20 @@ input AddRecipeInput {
 }
 
 type User {
+  _id: ID
   username: String!
   password: String!
   email: String!
   joinDate: String!
   favorites: [Recipe]
+}
+
+type Token {
+  token: String!
+}
+
+input SignupUserInput {
+  username: String!
+  email: String!
+  password: String!
 }
