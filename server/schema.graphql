@@ -1,9 +1,23 @@
 type Query {
   hello: String!
-  getAllRecipes: [Recipe!]!
+  getAllRecipes: [Recipe]
+}
+
+type Mutation {
+  addRecipe(data: AddRecipeInput!): Recipe!
 }
 
 type Recipe {
+  name: String!
+  category: String!
+  description: String!
+  instructions: String!
+  createdAt: String
+  likes: Int
+  username: String
+}
+
+input AddRecipeInput {
   name: String!
   category: String!
   description: String!
