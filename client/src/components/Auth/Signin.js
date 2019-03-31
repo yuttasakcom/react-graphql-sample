@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from "react-router-dom";
 import { Mutation } from "react-apollo";
 import { SIGNIN } from "../../queries";
 import Error from "../Error";
@@ -21,11 +22,13 @@ class Signin extends React.Component {
     this.setState({ [name]: value });
   };
 
-  handleSubmit = (event, signupUser) => {
+  handleSubmit = (event, signin) => {
     event.preventDefault();
-    signupUser().then(data => {
-      console.log(data);
+    signin().then(async ({ data }) => {
+      localStorage.setItem("token", data.signin.token);
+      await this.props.refetch();
       this.clearState();
+      this.props.history.push("/");
     });
   };
 
@@ -90,4 +93,4 @@ class Signin extends React.Component {
   }
 }
 
-export default Signin;
+export default withRouter(Signin);

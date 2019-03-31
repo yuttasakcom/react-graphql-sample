@@ -1,6 +1,7 @@
 type Query {
   hello: String!
   getAllRecipes: [Recipe]
+  getCurrentUser: User
 }
 
 type Mutation {

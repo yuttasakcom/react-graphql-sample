@@ -13,6 +13,20 @@ export default {
       const allRecipes = await Recipe.find();
       return allRecipes;
     },
+    getCurrentUser: async (parent, args, { User, req }) => {
+      if (!req.currentUser) {
+        return null;
+      }
+
+      const user = await User.findOne({
+        username: req.currentUser.username,
+      }).populate({
+        path: "favorites",
+        model: "Recipe",
+      });
+
+      return user;
+    },
   },
   Mutation: {
     addRecipe: async (parent, { data }, { Recipe }) => {
