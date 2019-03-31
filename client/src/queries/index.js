@@ -22,3 +22,11 @@ export const SIGNUP_USER = gql`
     }
   }
 `;
+
+export const SIGNIN = gql`
+  mutation($data: SigninInput!) {
+    signin(data: $data) {
+      token
+    }
+  }
+`;
