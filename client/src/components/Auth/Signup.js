@@ -1,13 +1,20 @@
 import React from "react";
 import { Mutation } from "react-apollo";
 import { SIGNUP_USER } from "../../queries";
+import Error from "../Error";
+
+const initialState = {
+  username: "",
+  email: "",
+  password: "",
+  passwordConfirmation: "",
+};
 
 class Signup extends React.Component {
-  state = {
-    username: "",
-    email: "",
-    password: "",
-    passwordConfirmation: "",
+  state = { ...initialState };
+
+  clearState = () => {
+    this.setState({ ...initialState });
   };
 
   handleChange = event => {
@@ -20,7 +27,15 @@ class Signup extends React.Component {
     event.preventDefault();
     signupUser().then(data => {
       console.log(data);
+      this.clearState();
     });
+  };
+
+  validateForm = () => {
+    const { username, email, password, passwordConfirmation } = this.state;
+    const isInvalid =
+      !username || !email || !password || password !== passwordConfirmation;
+    return isInvalid;
   };
 
   render() {
@@ -58,9 +73,6 @@ class Signup extends React.Component {
                       onChange={this.handleChange}
                       value={email}
                     />
-                    <small id="emailHelp" className="form-text text-muted">
-                      We'll never share your email with anyone else.
-                    </small>
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1">Password</label>
@@ -84,10 +96,14 @@ class Signup extends React.Component {
                       value={passwordConfirmation}
                     />
                   </div>
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={loading || this.validateForm()}
+                  >
                     Submit
                   </button>
-                  {error && <p>{error.message}</p>}
+                  {error && <Error error={error.message} />}
                 </form>
               </div>
             );

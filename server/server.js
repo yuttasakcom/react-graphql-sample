@@ -1,3 +1,4 @@
+import "@babel/polyfill";
 import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import mongoose from "mongoose";
@@ -20,7 +21,7 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log(`MongoDB Connected.`))
   .catch(err => {
-    console.log(err);
+    console.log("Check docker-compose up -d !:", err);
     process.exit(1);
   });
 

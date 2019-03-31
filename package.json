@@ -7,7 +7,9 @@
   "scripts": {
     "client": "cd client && npm start",
     "server": "env-cmd ./.env.dev nodemon server/server.js --exec babel-node",
-    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
+    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\"",
+    "build": "env-cmd ./.env.prod babel server -d dist --source-map",
+    "serve": "node dist/server.js"
   },
   "dependencies": {
     "apollo-server-express": "^2.4.8",
@@ -20,8 +22,10 @@
     "mongoose": "^5.4.20"
   },
   "devDependencies": {
+    "@babel/cli": "^7.2.3",
     "@babel/core": "^7.4.0",
     "@babel/node": "^7.2.2",
+    "@babel/polyfill": "^7.4.0",
     "@babel/preset-env": "^7.4.2",
     "concurrently": "^4.1.0",
     "env-cmd": "^8.0.2",
