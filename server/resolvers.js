@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import bscript from "bcrypt";
 
 const createToken = (user, secret, expiresIn) => {
   const { username, email } = user;
@@ -42,6 +43,23 @@ export default {
       }).save();
 
       return { token: createToken(newUser, process.env.SECRET, "1hr") };
+    },
+    signin: async (parent, { data }, { User }) => {
+      const user = await User.findOne({ username: data.username });
+      if (!user) {
+        throw new Error("User not found.");
+      }
+
+      const isValidPassword = await bscript.compare(
+        data.password,
+        user.password
+      );
+
+      if (!isValidPassword) {
+        throw new Error("Invalid password");
+      }
+
+      return { token: createToken(user, process.env.SECRET, "1hr") };
     },
   },
 };
